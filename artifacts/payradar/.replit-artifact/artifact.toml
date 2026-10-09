@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "PayRadar"
+description = "A cash-flow early-warning dashboard for Indian MSMEs: model buyer payment behavior, forecast cash with uncertainty, calculate indicative statutory exposure, and prioritize receivables and vendor payments."
+version = "1.0.0"
+id = "artifacts/payradar"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18955
+
+[services.development]
+run = "pnpm --filter @workspace/payradar run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/payradar", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/payradar/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18955"
+BASE_PATH = "/"
